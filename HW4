@@ -1,0 +1,15 @@
+const person1 = { 
+    firstName: "John", 
+    lastName: "Doe", 
+    age: 30 
+  }; 
+
+function getInfo(person) {
+  for (let key in person) { 
+    console.log(`${key}: ${person[key]}`) 
+  }
+}
+
+getInfo(person1)
+person1.gender = 'man'
+getInfo(person1)
