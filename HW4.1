@@ -1,0 +1,55 @@
+var services = {
+    "стрижка": "60 грн",
+    "гоління": "80 грн",
+    "Миття голови": "100 грн",
+
+    price() {
+      let total = 0;
+      for (let service in this) {
+        switch (true) {
+          case typeof this[service] === 'string' && this[service].includes('грн'):
+            total += parseInt(this[service]);
+            break;
+          default:
+            break;
+        }
+      }
+      return total + ' грн';
+    },
+    
+    minPrice() {
+      let prices = [];
+      for (let service in this) {
+        switch (true) {
+          case typeof this[service] === 'string' && this[service].includes('грн'):
+            prices.push(parseInt(this[service]));
+            break;
+          default:
+            break;
+        }
+      }
+      return Math.min(...prices) + ' грн';
+    },
+  
+    maxPrice() {
+      let prices = [];
+      for (let service in this) {
+        switch (true) {
+          case typeof this[service] === 'string' && this[service].includes('грн'):
+            prices.push(parseInt(this[service]));
+            break;
+          default:
+            break;
+        }
+      }
+      return Math.max(...prices) + ' грн';
+    }
+  };
+  console.log("Загальна вартість послуг: " + services.price());
+  
+  services['Розбити скло'] = "200 грн";
+
+  console.log("Загальна вартість послуг: " + services.price());
+  console.log("Мінімальна вартість послуг: " + services.minPrice());
+  console.log("Максимальна вартість послуг: " + services.maxPrice());
+  
