@@ -1,0 +1,5 @@
+const reg = /\b[^Aa\s]{6,}\b/g;
+const str = "Wonderful, Joyful, Happiness, Time, Task, Apple";
+
+const matchs = str.match(reg);
+console.log(matchs); 
