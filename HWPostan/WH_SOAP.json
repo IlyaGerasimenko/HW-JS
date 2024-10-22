@@ -1,0 +1,233 @@
+{
+	"info": {
+		"_postman_id": "f1759c0b-3836-4053-9c7b-953d160138a4",
+		"name": "Public SOAP APIs",
+		"description": "This is a collection of different SOAP APIs that are completley public and do not require any authentication, making it easier for consumers to play with and understand what APIs are all about by seeing the many different ways in which APIs can be used.",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "30467804"
+	},
+	"item": [
+		{
+			"name": "Book ISBN Numbers",
+			"item": [
+				{
+					"name": "Is Valid ISBN13 Number",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"const responseXml = pm.response.text();\r",
+									"const responseJson = xml2Json(responseXml);\r",
+									"\r",
+									"pm.test(\"Статус-код 200\", function () {\r",
+									"    pm.response.to.have.status(200);\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Тіло відповіді не порожнє\", function () {\r",
+									"    pm.expect(responseXml).to.not.be.empty;\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Містить елемент soap:Envelope\", function () {\r",
+									"    pm.expect(responseJson).to.have.property('soap:Envelope');\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Містить IsValidISBN13Result\", function () {\r",
+									"    pm.expect(responseJson['soap:Envelope']['soap:Body']['m:IsValidISBN13Response']).to.have.property('m:IsValidISBN13Result');\r",
+									"});\r",
+									"\r",
+									"pm.test(\"ISBN13 є валідним\", function () {\r",
+									"    const isValid = responseJson['soap:Envelope']['soap:Body']['m:IsValidISBN13Response']['m:IsValidISBN13Result'];\r",
+									"    pm.expect(isValid).to.equal(\"true\");\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Час відповіді менше 1 секунди\", function () {\r",
+									"    pm.expect(pm.response.responseTime).to.be.below(1000);\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Content-Type текст/XML\", function () {\r",
+									"    pm.response.to.have.header(\"Content-Type\", \"text/xml; charset=utf-8\");\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Результат є булевим значенням\", function () {\r",
+									"    const isValid = responseJson['soap:Envelope']['soap:Body']['m:IsValidISBN13Response']['m:IsValidISBN13Result'];\r",
+									"    pm.expect(isValid).to.match(/true|false/);\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Відповідає структурі SOAP XML\", function () {\r",
+									"    pm.expect(responseXml).to.match(/^<\\?xml version=\"1.0\" encoding=\"utf-8\"\\?>/);\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Немає SOAP помилок у відповіді\", function () {\r",
+									"    pm.expect(responseJson['soap:Envelope']['soap:Body']).to.not.have.property('soap:Fault');\r",
+									"});\r",
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "text/xml; charset=utf-8",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "<?xml version=\"1.0\" encoding=\"utf-8\"?>\n<soap:Envelope xmlns:soap=\"http://schemas.xmlsoap.org/soap/envelope/\">\n  <soap:Body>\n    <IsValidISBN13 xmlns=\"http://webservices.daehosting.com/ISBN\">\n      <sISBN>978-1-4612-9090-2</sISBN>\n    </IsValidISBN13>\n  </soap:Body>\n</soap:Envelope>"
+						},
+						"url": {
+							"raw": "http://webservices.daehosting.com/services/isbnservice.wso",
+							"protocol": "http",
+							"host": [
+								"webservices",
+								"daehosting",
+								"com"
+							],
+							"path": [
+								"services",
+								"isbnservice.wso"
+							]
+						},
+						"description": "The test is done by calculation on the first 12 digits and compare the result with the checksum number at the end. You have to pass a 13 digits number."
+					},
+					"response": []
+				},
+				{
+					"name": "Is Valid ISBN10 Number",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"const responseXml = pm.response.text();\r",
+									"const responseJson = xml2Json(responseXml);\r",
+									"\r",
+									"pm.test(\"Статус-код 200\", function () {\r",
+									"    pm.response.to.have.status(200);\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Тіло відповіді не порожнє\", function () {\r",
+									"    pm.expect(responseXml).to.not.be.empty;\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Містить елемент soap:Envelope\", function () {\r",
+									"    pm.expect(responseJson).to.have.property('soap:Envelope');\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Містить IsValidISBN10Result\", function () {\r",
+									"    pm.expect(responseJson['soap:Envelope']['soap:Body']['m:IsValidISBN10Response']).to.have.property('m:IsValidISBN10Result');\r",
+									"});\r",
+									"\r",
+									"pm.test(\"ISBN10 є валідним\", function () {\r",
+									"    const isValid = responseJson['soap:Envelope']['soap:Body']['m:IsValidISBN10Response']['m:IsValidISBN10Result'];\r",
+									"    pm.expect(isValid).to.equal(\"true\");\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Час відповіді менше 1 секунди\", function () {\r",
+									"    pm.expect(pm.response.responseTime).to.be.below(1000);\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Content-Type текст/XML\", function () {\r",
+									"    pm.response.to.have.header(\"Content-Type\", \"text/xml; charset=utf-8\");\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Результат є булевим значенням\", function () {\r",
+									"    const isValid = responseJson['soap:Envelope']['soap:Body']['m:IsValidISBN10Response']['m:IsValidISBN10Result'];\r",
+									"    pm.expect(isValid).to.match(/true|false/);\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Відповідає структурі SOAP XML\", function () {\r",
+									"    pm.expect(responseXml).to.match(/^<\\?xml version=\"1.0\" encoding=\"utf-8\"\\?>/);\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Немає SOAP помилок у відповіді\", function () {\r",
+									"    pm.expect(responseJson['soap:Envelope']['soap:Body']).to.not.have.property('soap:Fault');\r",
+									"});\r",
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "text/xml; charset=utf-8",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "<?xml version=\"1.0\" encoding=\"utf-8\"?>\n<soap:Envelope xmlns:soap=\"http://schemas.xmlsoap.org/soap/envelope/\">\n  <soap:Body>\n    <IsValidISBN10 xmlns=\"http://webservices.daehosting.com/ISBN\">\n      <sISBN>0-19-852663-6</sISBN>\n    </IsValidISBN10>\n  </soap:Body>\n</soap:Envelope>"
+						},
+						"url": {
+							"raw": "http://webservices.daehosting.com/services/isbnservice.wso",
+							"protocol": "http",
+							"host": [
+								"webservices",
+								"daehosting",
+								"com"
+							],
+							"path": [
+								"services",
+								"isbnservice.wso"
+							]
+						},
+						"description": "The test is done by calculation on the first 9 digits and compare the result with the checksum number at the end. You have to pass a 10 digits number or 8 digits and an X."
+					},
+					"response": []
+				}
+			],
+			"description": "SOAP APIs for book ISBN numbers.",
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"type": "text/javascript",
+						"exec": [
+							""
+						]
+					}
+				},
+				{
+					"listen": "test",
+					"script": {
+						"type": "text/javascript",
+						"exec": [
+							""
+						]
+					}
+				}
+			]
+		}
+	],
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		}
+	]
+}
